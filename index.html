@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Toán 11 – Các số đặc trưng đo xu thế trung tâm | THPT Trần Phú</title>
+<style>
+/* ============ ROOT ============ */
+:root{
+  --blue:#0f9bdc; --blue-d:#0a7ab0; --blue-l:#e6f4fd;
+  --red:#e53935; --yellow:#fdd835; --green:#22c55e; --green-l:#dcfce7;
+  --orange:#f97316; --purple:#8b5cf6; --pink:#ec4899;
+  --bg:#eef7ff; --card:#ffffff; --text:#1e293b; --muted:#64748b;
+  --border:#dbeafe; --shadow:0 6px 24px rgba(15,155,220,.13);
+  --radius:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  background:
+    radial-gradient(circle at 8% 6%, #d9f0ff 0, transparent 42%),
+    radial-gradient(circle at 92% 12%, #fff3c9 0, transparent 38%),
+    radial-gradient(circle at 50% 100%, #e3f9e8 0, transparent 45%),
+    var(--bg);
+  background-attachment:fixed;
+  color:var(--text); line-height:1.6; min-height:100vh;
+  font-size:15px;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 14px 60px}
+
+/* ============ HEADER ============ */
+header{
+  position:sticky;top:0;z-index:80;
+  background:linear-gradient(120deg,#0f9bdc,#3bb6ef 55%,#62c9f5);
+  box-shadow:0 4px 20px rgba(10,122,176,.28);
+  border-radius:0 0 22px 22px;
+}
+.head-in{max-width:1080px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;flex:1;min-width:200px}
+.brand .mascot{width:46px;height:46px;flex:0 0 46px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.22));animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.brand-txt h1{margin:0;font-size:16px;font-weight:800;letter-spacing:.2px;line-height:1.2}
+.brand-txt p{margin:1px 0 0;font-size:11.5px;opacity:.92}
+.navbtn{
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.42);color:#fff;
+  padding:7px 13px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:.2s;white-space:nowrap;font-family:inherit
+}
+.navbtn:hover{background:rgba(255,255,255,.32);transform:translateY(-1px)}
+.navbtn.active{background:#fff;color:var(--blue-d);border-color:#fff}
+.navbar{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+@media(min-width:720px){.navbar{width:auto}}
+.userchip{
+  background:rgba(255,255,255,.95);color:var(--blue-d);border-radius:22px;
+  padding:5px 13px;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1)
+}
+
+/* ============ SCREENS ============ */
+.screen{display:none;animation:fade .32s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ============ CARDS ============ */
+.card{
+  background:var(--card);border-radius:var(--radius);padding:20px;
+  box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:16px
+}
+.card h2{margin:0 0 12px;font-size:19px;color:var(--blue-d);display:flex;align-items:center;gap:8px}
+.card h3{margin:16px 0 8px;font-size:16px;color:var(--blue-d)}
+.sec-title{
+  font-size:22px;font-weight:800;color:var(--blue-d);margin:22px 0 12px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap
+}
+.sec-title .badge{
+  font-size:11px;background:var(--yellow);color:#7a5b00;padding:3px 10px;border-radius:20px;
+  font-weight:800;letter-spacing:.4px
+}
+
+/* ============ FORM ============ */
+.field{margin-bottom:13px}
+.field label{display:block;font-weight:700;font-size:13.5px;margin-bottom:5px;color:var(--blue-d)}
+.field input,.field select{
+  width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;
+  font-size:15px;font-family:inherit;background:#fafdff;transition:.18s;color:var(--text)
+}
+.field input:focus,.field select:focus{
+  outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(15,155,220,.13)
+}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:12px 22px;border:none;border-radius:13px;font-size:15px;font-weight:700;
+  cursor:pointer;transition:.2s;font-family:inherit;text-decoration:none
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,#0f9bdc,#3bb6ef);color:#fff;box-shadow:0 5px 16px rgba(15,155,220,.36)}
+.btn-primary:hover{box-shadow:0 8px 22px rgba(15,155,220,.5);transform:translateY(-2px)}
+.btn-green{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;box-shadow:0 5px 16px rgba(34,197,94,.34)}
+.btn-orange{background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;box-shadow:0 5px 16px rgba(249,115,22,.34)}
+.btn-purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;box-shadow:0 5px 16px rgba(139,92,246,.34)}
+.btn-ghost{background:#fff;color:var(--blue-d);border:2px solid var(--border)}
+.btn-ghost:hover{border-color:var(--blue);background:var(--blue-l)}
+.btn-sm{padding:8px 14px;font-size:13.5px;border-radius:11px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ============ GRID ============ */
+.grid{display:grid;gap:14px}
+.grid-2{grid-template-columns:1fr}
+.grid-3{grid-template-columns:1fr}
+@media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
+
+/* ============ QUIZ CARD (chọn bộ) ============ */
+.qcard{
+  background:#fff;border-radius:var(--radius);padding:18px;border:2px solid var(--border);
+  box-shadow:var(--shadow);transition:.24s;cursor:pointer;position:relative;overflow:hidden
+}
+.qcard:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(15,155,220,.24);border-color:var(--blue)}
+.qcard::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#0f9bdc,#62c9f5)}
+.qcard.g2::before{background:linear-gradient(90deg,#f97316,#fbbf24)}
+.qcard .qnum{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.qcard h4{margin:5px 0 6px;font-size:16.5px;color:var(--blue-d)}
+.qcard.g2 h4{color:#c2410c}
+.qcard p{margin:0;font-size:13px;color:var(--muted)}
+.qcard .meta{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
+.pill{font-size:11.5px;background:var(--blue-l);color:var(--blue-d);padding:3px 10px;border-radius:20px;font-weight:700}
+.pill.o{background:#ffedd5;color:#c2410c}
+.pill.g{background:var(--green-l);color:#15803d}
+.pill.done{background:#dcfce7;color:#15803d}
+
+/* ============ QUIZ PLAY ============ */
+.quiz-head{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px
+}
+.progress{height:10px;background:#e2eef8;border-radius:20px;overflow:hidden;margin-bottom:16px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#0f9bdc,#62c9f5);border-radius:20px;transition:width .35s}
+.timer{
+  display:flex;align-items:center;gap:6px;background:#fff7ed;border:2px solid #fed7aa;
+  border-radius:12px;padding:5px 12px;font-weight:800;color:#c2410c;font-size:14px
+}
+.timer.warn{background:#fee2e2;border-color:#fca5a5;color:#b91c1c;animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.qtext{font-size:16.5px;font-weight:600;margin:0 0 14px;line-height:1.65}
+.qtable{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;border-radius:10px;overflow:hidden}
+.qtable th{background:var(--blue-l);color:var(--blue-d);padding:9px 8px;border:1px solid var(--border);font-weight:700;text-align:center}
+.qtable td{padding:9px 8px;border:1px solid var(--border);text-align:center;background:#fff}
+.qtable td:first-child{font-weight:700;background:#f7fbff}
+
+/* ============ OPTIONS ============ */
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.opt{
+  display:flex;align-items:center;gap:12px;padding:13px 16px;border:2px solid var(--border);
+  border-radius:13px;background:#fff;cursor:pointer;transition:.18s;font-size:15px;text-align:left;
+  font-family:inherit;width:100%;color:var(--text)
+}
+.opt:hover:not(.locked){border-color:var(--blue);background:var(--blue-l);transform:translateX(4px)}
+.opt .k{
+  flex:0 0 32px;height:32px;border-radius:50%;background:var(--blue-l);color:var(--blue-d);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px
+}
+.opt.correct{border-color:var(--green);background:var(--green-l)}
+.opt.correct .k{background:var(--green);color:#fff}
+.opt.wrong{border-color:var(--red);background:#fee2e2}
+.opt.wrong .k{background:var(--red);color:#fff}
+.opt.locked{cursor:default}
+
+/* ============ SHORT ANSWER ============ */
+.shortwrap{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.shortwrap input{
+  flex:1;min-width:180px;padding:15px 18px;font-size:19px;font-weight:700;text-align:center;
+  border:2px solid var(--border);border-radius:13px;font-family:inherit;background:#fafdff;color:var(--blue-d)
+}
+.shortwrap input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(15,155,220,.13)}
+
+/* ============ FEEDBACK ============ */
+.fb{margin-top:14px;padding:14px 16px;border-radius:13px;font-size:14.5px;animation:fade .3s}
+.fb.ok{background:var(--green-l);border-left:5px solid var(--green);color:#14532d}
+.fb.no{background:#fee2e2;border-left:5px solid var(--red);color:#7f1d1d}
+.fb b{display:block;margin-bottom:5px;font-size:15px}
+.fb .exp{margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.14);font-size:14px}
+
+/* ============ MASCOT SPEECH ============ */
+.mascot-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.mascot-row svg{width:62px;height:62px;flex:0 0 62px}
+.bubble{
+  background:#fff;border:2px solid var(--border);border-radius:16px;padding:11px 15px;
+  font-size:14px;position:relative;flex:1;box-shadow:0 3px 12px rgba(15,155,220,.1)
+}
+.bubble::before{
+  content:'';position:absolute;left:-9px;top:19px;width:0;height:0;
+  border:9px solid transparent;border-right-color:var(--border)
+}
+.bubble::after{
+  content:'';position:absolute;left:-6px;top:19px;width:0;height:0;
+  border:9px solid transparent;border-right-color:#fff
+}
+
+/* ============ RESULT ============ */
+.score-circle{
+  width:150px;height:150px;border-radius:50%;margin:0 auto 16px;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;color:#fff;
+  box-shadow:0 10px 30px rgba(15,155,220,.34);animation:pop .5s cubic-bezier(.2,1.4,.5,1)
+}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.score-circle .num{font-size:42px;font-weight:900;line-height:1}
+.score-circle .den{font-size:15px;opacity:.9;margin-top:3px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.stat{background:#f7fbff;border:1px solid var(--border);border-radius:13px;padding:12px;text-align:center}
+.stat .v{font-size:21px;font-weight:800;color:var(--blue-d)}
+.stat .l{font-size:11.5px;color:var(--muted);font-weight:600}
+.weakbox{background:#fff7ed;border:2px dashed #fdba74;border-radius:14px;padding:15px;margin-top:14px}
+.weakbox h4{margin:0 0 9px;color:#c2410c;font-size:15.5px;display:flex;gap:7px;align-items:center}
+.weakitem{
+  background:#fff;border-radius:11px;padding:11px 13px;margin-bottom:9px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+  border-left:4px solid var(--orange)
+}
+.weakitem .t{font-weight:700;font-size:14px}
+.weakitem .s{font-size:12px;color:var(--muted)}
+
+/* ============ LEADERBOARD ============ */
+.lb-row{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:13px;
+  background:#fff;border:1px solid var(--border);margin-bottom:8px;transition:.2s
+}
+.lb-row:hover{transform:translateX(4px);box-shadow:0 4px 14px rgba(15,155,220,.16)}
+.lb-row.top1{background:linear-gradient(100deg,#fff8e1,#fffdf5);border-color:#fde68a}
+.lb-row.top2{background:linear-gradient(100deg,#f3f6fa,#fafcff);border-color:#cbd5e1}
+.lb-row.top3{background:linear-gradient(100deg,#fff1e6,#fffaf5);border-color:#fdba74}
+.lb-rank{font-size:19px;width:38px;text-align:center;font-weight:900;flex:0 0 38px}
+.lb-info{flex:1;min-width:0}
+.lb-info .n{font-weight:800;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-info .m{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-score{font-weight:900;font-size:17px;color:var(--blue-d);text-align:right}
+.lb-score small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+
+/* ============ TEACHER ============ */
+.tbl-wrap{overflow-x:auto;border-radius:13px;border:1px solid var(--border);-webkit-overflow-scrolling:touch}
+table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+table.data th{background:var(--blue-l);color:var(--blue-d);padding:11px 10px;text-align:left;font-weight:800;white-space:nowrap;position:sticky;top:0}
+table.data td{padding:10px;border-top:1px solid var(--border);white-space:nowrap}
+table.data tr:hover td{background:#f7fbff}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700}
+.tag.good{background:var(--green-l);color:#15803d}
+.tag.mid{background:#fef3c7;color:#a16207}
+.tag.bad{background:#fee2e2;color:#b91c1c}
+
+/* ============ KNOWLEDGE ============ */
+.kbox{border-radius:15px;padding:16px 18px;margin:13px 0;border-left:6px solid}
+.kbox.blue{background:linear-gradient(100deg,#eff8ff,#f8fcff);border-color:var(--blue)}
+.kbox.green{background:linear-gradient(100deg,#eefbf1,#f8fffa);border-color:var(--green)}
+.kbox.orange{background:linear-gradient(100deg,#fff6ed,#fffcf8);border-color:var(--orange)}
+.kbox.purple{background:linear-gradient(100deg,#f5f1ff,#fbf9ff);border-color:var(--purple)}
+.kbox h4{margin:0 0 9px;font-size:16px;display:flex;align-items:center;gap:8px}
+.kbox.blue h4{color:var(--blue-d)}
+.kbox.green h4{color:#15803d}
+.kbox.orange h4{color:#c2410c}
+.kbox.purple h4{color:#6d28d9}
+.formula{
+  background:#fff;border:2px dashed var(--border);border-radius:12px;padding:13px 15px;
+  margin:11px 0;text-align:center;font-size:16px;overflow-x:auto
+}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 5px;font-size:.92em}
+.frac .num{border-bottom:2px solid currentColor;padding:0 7px 1px}
+.frac .den{padding:1px 7px 0}
+.note{font-size:13.5px;color:var(--muted);font-style:italic;margin-top:8px}
+ul.tight{margin:7px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* ============ TOAST ============ */
+#toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(140%);
+  background:#1e293b;color:#fff;padding:13px 24px;border-radius:14px;font-weight:700;
+  font-size:14px;z-index:999;transition:.35s;box-shadow:0 10px 30px rgba(0,0,0,.3);
+  max-width:88vw;text-align:center
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.ok{background:linear-gradient(135deg,#16a34a,#22c55e)}
+#toast.no{background:linear-gradient(135deg,#dc2626,#ef4444)}
+
+/* ============ MISC ============ */
+.center{text-align:center}
+.muted{color:var(--muted);font-size:13.5px}
+.mt{margin-top:14px}.mb{margin-bottom:14px}
+.hidden{display:none!important}
+.hero{
+  background:linear-gradient(135deg,#0f9bdc,#3bb6ef 60%,#7ed0f7);color:#fff;
+  border-radius:20px;padding:26px 22px;margin-bottom:16px;position:relative;overflow:hidden;
+  box-shadow:0 10px 34px rgba(15,155,220,.34)
+}
+.hero::after{
+  content:'';position:absolute;right:-40px;top:-40px;width:170px;height:170px;
+  background:rgba(255,255,255,.14);border-radius:50%
+}
+.hero::before{
+  content:'';position:absolute;right:20px;bottom:-60px;width:120px;height:120px;
+  background:rgba(255,255,255,.1);border-radius:50%
+}
+.hero h2{margin:0 0 7px;font-size:23px;font-weight:900;position:relative;z-index:2}
+.hero p{margin:0;opacity:.95;font-size:14.5px;position:relative;z-index:2;max-width:640px}
+.hero .dora{position:absolute;right:14px;top:14px;width:76px;height:76px;z-index:3;opacity:.96;animation:bob 3.4s ease-in-out infinite}
+
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:#eef7ff}
+::-webkit-scrollbar-thumb{background:#a9d9f2;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+
+@media(max-width:600px){
+  .brand-txt h1{font-size:14px}
+  .brand-txt p{font-size:10.5px}
+  .hero h2{font-size:19px}
+  .hero .dora{width:58px;height:58px;opacity:.55}
+  .sec-title{font-size:18.5px}
+  .qtext{font-size:15.5px}
+  .stat-grid{grid-template-columns:repeat(3,1fr)}
+  .stat .v{font-size:17px}
+  .card{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <div class="brand">
+      <svg class="mascot" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="45" r="35" fill="#0f9bdc"/>
+        <ellipse cx="50" cy="53" rx="27" ry="24" fill="#fff"/>
+        <ellipse cx="40" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+        <ellipse cx="60" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+        <circle cx="42" cy="34" r="3" fill="#334155"/>
+        <circle cx="58" cy="34" r="3" fill="#334155"/>
+        <circle cx="43" cy="33" r="1" fill="#fff"/>
+        <circle cx="59" cy="33" r="1" fill="#fff"/>
+        <circle cx="50" cy="47" r="5" fill="#e53935"/>
+        <circle cx="51.6" cy="45.4" r="1.5" fill="#fff"/>
+        <path d="M50 52 Q50 63 40 63" stroke="#334155" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M50 52 Q50 63 60 63" stroke="#334155" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="19" y1="42" x2="37" y2="45" stroke="#334155" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="18" y1="50" x2="37" y2="50" stroke="#334155" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="19" y1="58" x2="37" y2="55" stroke="#334155" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="81" y1="42" x2="63" y2="45" stroke="#334155" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="82" y1="50" x2="63" y2="50" stroke="#334155" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="81" y1="58" x2="63" y2="55" stroke="#334155" stroke-width="1.3" stroke-linecap="round"/>
+        <rect x="23" y="72" width="54" height="7" fill="#e53935" rx="3.5"/>
+        <circle cx="50" cy="83" r="6.5" fill="#fdd835" stroke="#334155" stroke-width="1.4"/>
+        <line x1="45" y1="83" x2="55" y2="83" stroke="#334155" stroke-width="1.4"/>
+        <circle cx="50" cy="86" r="1.3" fill="#334155"/>
+      </svg>
+      <div class="brand-txt">
+        <h1>Toán 11 – Số đặc trưng đo xu thế trung tâm</h1>
+        <p>GV: Nguyễn Hữu Trung · THPT Trần Phú · KNTT</p>
+      </div>
+    </div>
+    <div id="navArea"></div>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+<div id="toast"></div>
+
+<script>
+/* =====================================================================
+   CẤU HÌNH
+   ===================================================================== */
+const TEACHER_PASSWORD = '0964848989';   // Mật khẩu vào trang Giáo viên
+const SEC_PER_QUESTION = 90;             // Thời gian mỗi câu nhóm 2 (giây)
+const STORE_KEY = 'toan11_ketnoi_results_v1';
+const USER_KEY  = 'toan11_ketnoi_user_v1';
+
+/* --- ĐỒNG BỘ ĐÁM MÂY (tùy chọn) ---------------------------------------
+   Muốn nhiều máy cùng thấy kết quả: tạo Firebase project, bật Firestore,
+   đặt Rules cho phép đọc/ghi, rồi điền projectId + apiKey và enabled=true.
+----------------------------------------------------------------------- */
+const CLOUD = {
+  enabled: false,
+  projectId: '',            // ví dụ: 'toan11-tranphu'
+  apiKey: '',               // ví dụ: 'AIzaSy....'
+  collection: 'toan11_results'
+};
+
+/* =====================================================================
+   DỮ LIỆU CHỦ ĐỀ
+   ===================================================================== */
+const TOPICS = {
+  basic:    { name:'Mẫu số liệu ghép nhóm & giá trị đại diện', icon:'📊', color:'#3b82f6', anchor:'k-basic' },
+  mean:     { name:'Số trung bình',                              icon:'⚖️', color:'#22c55e', anchor:'k-mean' },
+  median:   { name:'Trung vị',                                   icon:'🎯', color:'#f59e0b', anchor:'k-median' },
+  quartile: { name:'Tứ phân vị Q₁, Q₃',                          icon:'📐', color:'#8b5cf6', anchor:'k-quartile' },
+  mode:     { name:'Mốt',                                        icon:'⭐', color:'#ef4444', anchor:'k-mode' }
+};
+
+/* =====================================================================
+   NGÂN HÀNG CÂU HỎI
+   ===================================================================== */
+const BANK = {};
+
+/* ---------------------- NHÓM 1 – BỘ 1: SỐ TRUNG BÌNH ------------------ */
+BANK.g1b1 = {
+  group:1, title:'Bộ 1 — Số trung bình', sub:'Nhận biết → Thông hiểu → Vận dụng',
+  qs:[
+    { topic:'basic',
+      q:'Cho bảng tần số ghép nhóm sau:',
+      table:{ head:['Nhóm','[0;10)','[10;20)','[20;30)'], rows:[['Tần số','2','3','5']] },
+      ask:'Cỡ mẫu của mẫu số liệu là:',
+      options:['5','8','10','15'], ans:2,
+      explain:'Cỡ mẫu n = 2 + 3 + 5 = 10.' },
+
+    { topic:'basic',
+      q:'Giá trị đại diện của nhóm [150;160) là:',
+      options:['150','155','160','310'], ans:1,
+      explain:'Giá trị đại diện x = (150 + 160)/2 = 155.' },
+
+    { topic:'mean',
+      q:'Mẫu số liệu có giá trị đại diện x₁ = 5, x₂ = 15 với tần số m₁ = 4, m₂ = 6.',
+      ask:'Số trung bình của mẫu là:',
+      options:['10','11','12','13'], ans:1,
+      explain:'x̄ = (4·5 + 6·15)/10 = (20 + 90)/10 = 11.' },
+
+    { topic:'mean',
+      q:'Bảng tần số ghép nhóm:',
+      table:{ head:['Nhóm','[10;20)','[20;30)','[30;40)'], rows:[['Tần số','5','8','7']] },
+      ask:'Số trung bình của mẫu là:',
+      options:['24','25','26','27'], ans:2,
+      explain:'x = 15; 25; 35. x̄ = (5·15 + 8·25 + 7·35)/20 = 520/20 = 26.' },
+
+    { topic:'mean',
+      q:'Chiều cao (cm) của 40 học sinh lớp 11A:',
+      table:{ head:['Chiều cao','[150;155)','[155;160)','[160;165)','[165;170)','[170;175)'],
+              rows:[['Số HS','5','10','15','7','3']] },
+      ask:'Chiều cao trung bình là:',
+      options:['161,5 cm','161,625 cm','162 cm','162,5 cm'], ans:1,
+      explain:'x = 152,5; 157,5; 162,5; 167,5; 172,5. x̄ = 6465/40 = 161,625 cm.' },
+
+    { topic:'mean',
+      q:'Thời gian tự học (giờ/tuần) của 30 học sinh lớp 11B:',
+      table:{ head:['Thời gian','[0;2)','[2;4)','[4;6)','[6;8)','[8;10)'],
+              rows:[['Số HS','3','8','12','5','2']] },
+      ask:'Thời gian tự học trung bình mỗi tuần là:',
+      options:['4,5 giờ','4,67 giờ','5,0 giờ','5,2 giờ'], ans:1,
+      explain:'x̄ = (3·1 + 8·3 + 12·5 + 5·7 + 2·9)/30 = 140/30 ≈ 4,67 giờ.' },
+
+    { topic:'mean',
+      q:'Khối lượng (gam) của 30 củ khoai tây:',
+      table:{ head:['Khối lượng','[70;80)','[80;90)','[90;100)','[100;110)','[110;120)'],
+              rows:[['Số củ','3','6','12','6','3']] },
+      ask:'Khối lượng trung bình là:',
+      options:['90 g','92,5 g','95 g','97,5 g'], ans:2,
+      explain:'x = 75; 85; 95; 105; 115. x̄ = 2850/30 = 95 g.' },
+
+    { topic:'mean',
+      q:'Điểm kiểm tra Tiếng Anh của 100 học sinh:',
+      table:{ head:['Điểm','[4;5)','[5;6)','[6;7)','[7;8)','[8;9)'],
+              rows:[['Số HS','8','18','32','28','14']] },
+      ask:'Điểm trung bình là:',
+      options:['6,5','6,72','6,75','6,8'], ans:1,
+      explain:'x = 4,5; 5,5; 6,5; 7,5; 8,5. x̄ = (36 + 99 + 208 + 210 + 119)/100 = 672/100 = 6,72.' },
+
+    { topic:'mean',
+      q:'Tuổi thọ (giờ) của 70 bóng đèn:',
+      table:{ head:['Tuổi thọ','[800;900)','[900;1000)','[1000;1100)','[1100;1200)','[1200;1300)'],
+              rows:[['Số bóng','5','15','25','18','7']] },
+      ask:'Tuổi thọ trung bình là:',
+      options:['1020 giờ','1050 giờ','1060 giờ','1080 giờ'], ans:2,
+      explain:'x = 850; 950; 1050; 1150; 1250. Tổng = 4250 + 14250 + 26250 + 20700 + 8750 = 74200. x̄ = 74200/70 = 1060 giờ.' },
+
+    { topic:'mean',
+      q:'Năng suất lúa (tạ/ha) của 60 thửa ruộng:',
+      table:{ head:['Năng suất','[40;45)','[45;50)','[50;55)','[55;60)','[60;65)'],
+              rows:[['Số thửa','5','15','25','10','5']] },
+      ask:'Năng suất trung bình là:',
+      options:['50,0','51,5','52,08','52,5'], ans:2,
+      explain:'x = 42,5; 47,5; 52,5; 57,5; 62,5. Tổng = 3125. x̄ = 3125/60 ≈ 52,08 tạ/ha.' }
+  ]
+};
+
+/* ------------- NHÓM 1 – BỘ 2: TRUNG VỊ & TỨ PHÂN VỊ ------------------- */
+BANK.g1b2 = {
+  group:1, title:'Bộ 2 — Trung vị & Tứ phân vị', sub:'Xác định nhóm chứa – Áp dụng công thức',
+  qs:[
+    { topic:'median',
+      q:'Trung vị của mẫu số liệu ghép nhóm chính là:',
+      options:['Tứ phân vị thứ nhất Q₁','Tứ phân vị thứ hai Q₂','Tứ phân vị thứ ba Q₃','Mốt Mₒ'],
+      ans:1, explain:'Q₂ = Mₑ (trung vị).' },
+
+    { topic:'median',
+      q:'Mẫu số liệu có cỡ mẫu n = 40. Nhóm chứa trung vị là nhóm chứa giá trị thứ:',
+      options:['10','20','30','40'], ans:1,
+      explain:'Trung vị ứng với vị trí n/2 = 20.' },
+
+    { topic:'median',
+      q:'Thời gian hoàn thành bài kiểm tra (phút) của 40 học sinh:',
+      table:{ head:['Thời gian','[20;30)','[30;40)','[40;50)','[50;60)'],
+              rows:[['Số HS','5','12','15','8']] },
+      ask:'Trung vị của mẫu là:',
+      options:['40','42','45','47'], ans:1,
+      explain:'n/2 = 20. Tần số tích lũy: 5; 17; 32. Nhóm [40;50). Mₑ = 40 + (20−17)/15 · 10 = 42 phút.' },
+
+    { topic:'median',
+      q:'Điểm kiểm tra Toán của 50 học sinh:',
+      table:{ head:['Điểm','[3;4)','[4;5)','[5;6)','[6;7)','[7;8)'],
+              rows:[['Số HS','4','8','15','14','9']] },
+      ask:'Trung vị của mẫu là:',
+      options:['5,50','5,75','5,87','6,00'], ans:2,
+      explain:'n/2 = 25. Tích lũy: 4; 12; 27; 41; 50. Nhóm [5;6). Mₑ = 5 + (25−12)/15 · 1 ≈ 5,87.' },
+
+    { topic:'median',
+      q:'Chiều cao (cm) của 60 nam sinh lớp 11:',
+      table:{ head:['Chiều cao','[155;160)','[160;165)','[165;170)','[170;175)','[175;180)'],
+              rows:[['Số HS','6','14','22','12','6']] },
+      ask:'Trung vị của mẫu là:',
+      options:['166 cm','167 cm','167,27 cm','168 cm'], ans:2,
+      explain:'n/2 = 30. Tích lũy: 6; 20; 42. Nhóm [165;170). Mₑ = 165 + (30−20)/22 · 5 ≈ 167,27 cm.' },
+
+    { topic:'quartile',
+      q:'Chiều cao (cm) của 40 cây thông:',
+      table:{ head:['Chiều cao','[100;110)','[110;120)','[120;130)','[130;140)','[140;150)'],
+              rows:[['Số cây','5','10','15','7','3']] },
+      ask:'Tứ phân vị thứ nhất Q₁ là:',
+      options:['110 cm','112,5 cm','115 cm','120 cm'], ans:2,
+      explain:'n/4 = 10. Tích lũy: 5; 15. Nhóm [110;120). Q₁ = 110 + (10−5)/10 · 10 = 115 cm.' },
+
+    { topic:'quartile',
+      q:'Vẫn dùng bảng chiều cao 40 cây thông ở câu trên.',
+      ask:'Tứ phân vị thứ ba Q₃ là:',
+      options:['125 cm','128 cm','130 cm','135 cm'], ans:2,
+      explain:'3n/4 = 30. Tích lũy: 5; 15; 30. Nhóm [120;130). Q₃ = 120 + (30−15)/15 · 10 = 130 cm.' },
+
+    { topic:'quartile',
+      q:'Thời gian làm bài (phút) của 40 học sinh:',
+      table:{ head:['Thời gian','[10;15)','[15;20)','[20;25)','[25;30)','[30;35)'],
+              rows:[['Số HS','4','12','14','8','2']] },
+      ask:'Tứ phân vị thứ nhất Q₁ là:',
+      options:['15','17,5','18','20'], ans:1,
+      explain:'n/4 = 10. Tích lũy: 4; 16. Nhóm [15;20). Q₁ = 15 + (10−4)/12 · 5 = 17,5.' },
+
+    { topic:'quartile',
+      q:'Vẫn dùng bảng thời gian làm bài 40 học sinh ở câu trên.',
+      ask:'Tứ phân vị thứ ba Q₃ là:',
+      options:['22,5','24','25','27,5'], ans:2,
+      explain:'3n/4 = 30. Tích lũy: 4; 16; 30. Nhóm [20;25). Q₃ = 20 + (30−16)/14 · 5 = 25.' },
+
+    { topic:'quartile',
+      q:'Chiều cao (cm) của 60 vận động viên bóng rổ:',
+      table:{ head:['Chiều cao','[170;175)','[175;180)','[180;185)','[185;190)','[190;195)'],
+              rows:[['Số VĐV','6','14','22','12','6']] },
+      ask:'Cặp tứ phân vị (Q₁ ; Q₃) là:',
+      options:['(178,21 ; 186,25)','(177,5 ; 185,5)','(178,5 ; 186,0)','(179,0 ; 187,0)'], ans:0,
+      explain:'Tích lũy: 6; 20; 42; 54; 60. Q₁: nhóm [175;180) → 175 + (15−6)/14 · 5 ≈ 178,21. Q₃: nhóm [185;190) → 185 + (45−42)/12 · 5 = 186,25.' }
+  ]
+};
+
+/* ----------------- NHÓM 1 – BỘ 3: MỐT & TỔNG HỢP --------------------- */
+BANK.g1b3 = {
+  group:1, title:'Bộ 3 — Mốt & Tổng hợp', sub:'Vận dụng tổng hợp cả bốn số đặc trưng',
+  qs:[
+    { topic:'mode',
+      q:'Mốt của mẫu số liệu ghép nhóm là:',
+      options:['Giá trị lớn nhất của mẫu','Giá trị có tần số lớn nhất','Giá trị nhỏ nhất của mẫu','Trung bình cộng của mẫu'],
+      ans:1, explain:'Mốt Mₒ là giá trị (nhóm) có tần số lớn nhất.' },
+
+    { topic:'mode',
+      q:'Nhóm chứa mốt của mẫu số liệu ghép nhóm là nhóm:',
+      options:['Có tần số nhỏ nhất','Có tần số lớn nhất','Đứng đầu tiên','Đứng cuối cùng'],
+      ans:1, explain:'Nhóm chứa mốt là nhóm có tần số lớn nhất.' },
+
+    { topic:'mode',
+      q:'Năng suất lúa (tạ/ha) của 60 thửa ruộng:',
+      table:{ head:['Năng suất','[40;45)','[45;50)','[50;55)','[55;60)','[60;65)'],
+              rows:[['Số thửa','5','15','25','10','5']] },
+      ask:'Mốt của mẫu là:',
+      options:['50','52','53','55'], ans:1,
+      explain:'Nhóm [50;55). Mₒ = 50 + (25−15)/[(25−15)+(25−10)] · 5 = 50 + 10/25·5 = 52.' },
+
+    { topic:'mode',
+      q:'Số cuộc gọi đến tổng đài mỗi giờ:',
+      table:{ head:['Số cuộc','[20;30)','[30;40)','[40;50)','[50;60)','[60;70)'],
+              rows:[['Số giờ','3','6','10','4','1']] },
+      ask:'Mốt của mẫu là:',
+      options:['42','44','45','46'], ans:1,
+      explain:'Nhóm [40;50). Mₒ = 40 + (10−6)/[(10−6)+(10−4)] · 10 = 40 + 4/10·10 = 44.' },
+
+    { topic:'mean',
+      q:'Cân nặng (kg) của 50 học sinh lớp 11C:',
+      table:{ head:['Cân nặng','[35;40)','[40;45)','[45;50)','[50;55)','[55;60)'],
+              rows:[['Số HS','5','12','18','10','5']] },
+      ask:'Số trung bình của mẫu là:',
+      options:['47,0 kg','47,3 kg','47,5 kg','48,0 kg'], ans:1,
+      explain:'x = 37,5; 42,5; 47,5; 52,5; 57,5. Tổng = 2365. x̄ = 2365/50 = 47,3 kg.' },
+
+    { topic:'median',
+      q:'Vẫn dùng bảng cân nặng 50 học sinh lớp 11C ở câu trên.',
+      ask:'Trung vị của mẫu là:',
+      options:['47,00','47,22','47,50','48,00'], ans:1,
+      explain:'n/2 = 25. Tích lũy: 5; 17; 35. Nhóm [45;50). Mₑ = 45 + (25−17)/18 · 5 ≈ 47,22.' },
+
+    { topic:'mode',
+      q:'Vẫn dùng bảng cân nặng 50 học sinh lớp 11C ở câu trên.',
+      ask:'Mốt của mẫu là:',
+      options:['47,00','47,14','47,50','48,00'], ans:1,
+      explain:'Nhóm [45;50). Mₒ = 45 + (18−12)/[(18−12)+(18−10)] · 5 = 45 + 30/14 ≈ 47,14.' },
+
+    { topic:'median',
+      q:'Số bông hoa bán được mỗi ngày trong 60 ngày:',
+      table:{ head:['Số bông','[10;15)','[15;20)','[20;25)','[25;30)','[30;35)'],
+              rows:[['Số ngày','8','14','20','12','6']] },
+      ask:'Trung vị của mẫu là:',
+      options:['20','21','22','23'], ans:2,
+      explain:'n/2 = 30. Tích lũy: 8; 22; 42. Nhóm [20;25). Mₑ = 20 + (30−22)/20 · 5 = 22.' },
+
+    { topic:'quartile',
+      q:'Vẫn dùng bảng số bông hoa bán được ở câu trên.',
+      ask:'Tứ phân vị thứ nhất Q₁ là:',
+      options:['15','17,5','18','20'], ans:1,
+      explain:'n/4 = 15. Tích lũy: 8; 22. Nhóm [15;20). Q₁ = 15 + (15−8)/14 · 5 = 17,5.' },
+
+    { topic:'median',
+      q:'Huyết áp tâm thu (mmHg) của 40 bệnh nhân:',
+      table:{ head:['Huyết áp','[110;120)','[120;130)','[130;140)','[140;150)','[150;160)'],
+              rows:[['Số BN','4','10','15','8','3']] },
+      ask:'Trung vị của mẫu là:',
+      options:['132','133','134','135'], ans:2,
+      explain:'n/2 = 20. Tích lũy: 4; 14; 29. Nhóm [130;140). Mₑ = 130 + (20−14)/15 · 10 = 134.' }
+  ]
+};
+
+/* ---------------- NHÓM 2 – BỘ 1: SỐ TRUNG BÌNH ----------------------- */
+BANK.g2b1 = {
+  group:2, title:'Bộ 1 — Số trung bình', sub:'Điền đáp án – Có đồng hồ đếm ngược',
+  qs:[
+    { topic:'basic', q:'Giá trị đại diện của nhóm [0;10) là bao nhiêu?', ans:5, tol:0.01,
+      explain:'x = (0 + 10)/2 = 5.' },
+
+    { topic:'basic', q:'Bảng tần số có các tần số 3; 7; 10. Cỡ mẫu n bằng bao nhiêu?', ans:20, tol:0.01,
+      explain:'n = 3 + 7 + 10 = 20.' },
+
+    { topic:'mean', q:'Cho x₁ = 5, m₁ = 4 và x₂ = 15, m₂ = 6. Số trung bình của mẫu bằng bao nhiêu?',
+      ans:11, tol:0.01, explain:'x̄ = (4·5 + 6·15)/10 = 110/10 = 11.' },
+
+    { topic:'mean', q:'Bảng: [10;20): 5, [20;30): 8, [30;40): 7. Số trung bình bằng bao nhiêu?',
+      ans:26, tol:0.01, explain:'x = 15; 25; 35. x̄ = (75 + 200 + 245)/20 = 520/20 = 26.' },
+
+    { topic:'mean', q:'Khối lượng (g): [70;80): 3, [80;90): 6, [90;100): 12, [100;110): 6, [110;120): 3. Khối lượng trung bình bằng bao nhiêu gam?',
+      ans:95, tol:0.01, explain:'x̄ = (3·75 + 6·85 + 12·95 + 6·105 + 3·115)/30 = 2850/30 = 95.' },
+
+    { topic:'mean', q:'Thời gian tự học (giờ): [0;2): 3, [2;4): 8, [4;6): 12, [6;8): 5, [8;10): 2. Thời gian trung bình bằng bao nhiêu giờ? (làm tròn 2 chữ số thập phân)',
+      ans:4.67, tol:0.02, explain:'x̄ = (3 + 24 + 60 + 35 + 18)/30 = 140/30 ≈ 4,67.' },
+
+    { topic:'mean', q:'Năng suất (tạ/ha): [40;45): 5, [45;50): 15, [50;55): 25, [55;60): 10, [60;65): 5. Năng suất trung bình bằng bao nhiêu? (làm tròn 2 chữ số thập phân)',
+      ans:52.08, tol:0.02, explain:'x̄ = 3125/60 ≈ 52,08.' },
+
+    { topic:'mean', q:'Tuổi thọ bóng đèn (giờ): [800;900): 5, [900;1000): 15, [1000;1100): 25, [1100;1200): 18, [1200;1300): 7. Tuổi thọ trung bình bằng bao nhiêu giờ?',
+      ans:1060, tol:1, explain:'Tổng = 4250 + 14250 + 26250 + 20700 + 8750 = 74200. x̄ = 74200/70 = 1060.' },
+
+    { topic:'mean', q:'Chiều cao (cm): [150;155): 5, [155;160): 10, [160;165): 15, [165;170): 7, [170;175): 3 (n = 40). Chiều cao trung bình bằng bao nhiêu cm?',
+      ans:161.625, tol:0.02, explain:'x̄ = 6465/40 = 161,625 cm.' },
+
+    { topic:'mean', q:'Điểm Tiếng Anh: [4;5): 8, [5;6): 18, [6;7): 32, [7;8): 28, [8;9): 14 (n = 100). Điểm trung bình bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:6.72, tol:0.02, explain:'Tổng = 36 + 99 + 208 + 210 + 119 = 672. x̄ = 672/100 = 6,72.' }
+  ]
+};
+
+/* --------------- NHÓM 2 – BỘ 2: TRUNG VỊ & TỨ PHÂN VỊ ---------------- */
+BANK.g2b2 = {
+  group:2, title:'Bộ 2 — Trung vị & Tứ phân vị', sub:'Điền đáp án – Có đồng hồ đếm ngược',
+  qs:[
+    { topic:'median', q:'Mẫu số liệu có cỡ mẫu n = 40. Giá trị n/2 bằng bao nhiêu?',
+      ans:20, tol:0.01, explain:'n/2 = 40/2 = 20.' },
+
+    { topic:'median', q:'Thời gian (phút): [20;30): 5, [30;40): 12, [40;50): 15, [50;60): 8. Trung vị bằng bao nhiêu?',
+      ans:42, tol:0.01, explain:'n/2 = 20; tích lũy 5; 17; 32 → nhóm [40;50). Mₑ = 40 + (20−17)/15·10 = 42.' },
+
+    { topic:'median', q:'Điểm: [3;4): 4, [4;5): 8, [5;6): 15, [6;7): 14, [7;8): 9 (n = 50). Trung vị bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:5.87, tol:0.02, explain:'n/2 = 25; tích lũy 4; 12; 27 → nhóm [5;6). Mₑ = 5 + 13/15 ≈ 5,87.' },
+
+    { topic:'median', q:'Chiều cao (cm): [155;160): 6, [160;165): 14, [165;170): 22, [170;175): 12, [175;180): 6 (n = 60). Trung vị bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:167.27, tol:0.02, explain:'n/2 = 30; tích lũy 6; 20; 42 → nhóm [165;170). Mₑ = 165 + 50/22 ≈ 167,27.' },
+
+    { topic:'quartile', q:'Chiều cao cây (cm): [100;110): 5, [110;120): 10, [120;130): 15, [130;140): 7, [140;150): 3 (n = 40). Tứ phân vị Q₁ bằng bao nhiêu?',
+      ans:115, tol:0.01, explain:'n/4 = 10; tích lũy 5; 15 → nhóm [110;120). Q₁ = 110 + 5/10·10 = 115.' },
+
+    { topic:'quartile', q:'Vẫn dùng bảng chiều cao cây ở câu trên. Tứ phân vị Q₃ bằng bao nhiêu?',
+      ans:130, tol:0.01, explain:'3n/4 = 30; tích lũy 5; 15; 30 → nhóm [120;130). Q₃ = 120 + 15/15·10 = 130.' },
+
+    { topic:'quartile', q:'Thời gian (phút): [10;15): 4, [15;20): 12, [20;25): 14, [25;30): 8, [30;35): 2. Tứ phân vị Q₁ bằng bao nhiêu?',
+      ans:17.5, tol:0.02, explain:'n/4 = 10; nhóm [15;20). Q₁ = 15 + 6/12·5 = 17,5.' },
+
+    { topic:'quartile', q:'Vẫn dùng bảng thời gian ở câu trên. Tứ phân vị Q₃ bằng bao nhiêu?',
+      ans:25, tol:0.01, explain:'3n/4 = 30; nhóm [20;25). Q₃ = 20 + 14/14·5 = 25.' },
+
+    { topic:'quartile', q:'Chiều cao VĐV (cm): [170;175): 6, [175;180): 14, [180;185): 22, [185;190): 12, [190;195): 6 (n = 60). Q₁ bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:178.21, tol:0.02, explain:'n/4 = 15; nhóm [175;180). Q₁ = 175 + 9/14·5 ≈ 178,21.' },
+
+    { topic:'quartile', q:'Vẫn dùng bảng chiều cao VĐV ở câu trên. Q₃ bằng bao nhiêu?',
+      ans:186.25, tol:0.02, explain:'3n/4 = 45; nhóm [185;190). Q₃ = 185 + 3/12·5 = 186,25.' }
+  ]
+};
+
+/* ------------------- NHÓM 2 – BỘ 3: MỐT & TỔNG HỢP ------------------- */
+BANK.g2b3 = {
+  group:2, title:'Bộ 3 — Mốt & Tổng hợp', sub:'Điền đáp án – Có đồng hồ đếm ngược',
+  qs:[
+    { topic:'mode', q:'Năng suất (tạ/ha): [40;45): 5, [45;50): 15, [50;55): 25, [55;60): 10, [60;65): 5. Mốt bằng bao nhiêu?',
+      ans:52, tol:0.01, explain:'Nhóm [50;55). Mₒ = 50 + 10/25·5 = 52.' },
+
+    { topic:'mode', q:'Số cuộc gọi: [20;30): 3, [30;40): 6, [40;50): 10, [50;60): 4, [60;70): 1. Mốt bằng bao nhiêu?',
+      ans:44, tol:0.01, explain:'Nhóm [40;50). Mₒ = 40 + 4/10·10 = 44.' },
+
+    { topic:'mean', q:'Cân nặng (kg): [35;40): 5, [40;45): 12, [45;50): 18, [50;55): 10, [55;60): 5 (n = 50). Số trung bình bằng bao nhiêu?',
+      ans:47.3, tol:0.02, explain:'Tổng = 2365. x̄ = 2365/50 = 47,3.' },
+
+    { topic:'median', q:'Vẫn dùng bảng cân nặng ở câu trên. Trung vị bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:47.22, tol:0.02, explain:'n/2 = 25; nhóm [45;50). Mₑ = 45 + 8/18·5 ≈ 47,22.' },
+
+    { topic:'mode', q:'Vẫn dùng bảng cân nặng ở câu trên. Mốt bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:47.14, tol:0.02, explain:'Mₒ = 45 + 6/14·5 ≈ 47,14.' },
+
+    { topic:'median', q:'Số bông hoa: [10;15): 8, [15;20): 14, [20;25): 20, [25;30): 12, [30;35): 6 (n = 60). Trung vị bằng bao nhiêu?',
+      ans:22, tol:0.01, explain:'n/2 = 30; nhóm [20;25). Mₑ = 20 + 8/20·5 = 22.' },
+
+    { topic:'quartile', q:'Vẫn dùng bảng số bông hoa ở câu trên. Q₁ bằng bao nhiêu?',
+      ans:17.5, tol:0.02, explain:'n/4 = 15; nhóm [15;20). Q₁ = 15 + 7/14·5 = 17,5.' },
+
+    { topic:'median', q:'Huyết áp (mmHg): [110;120): 4, [120;130): 10, [130;140): 15, [140;150): 8, [150;160): 3 (n = 40). Trung vị bằng bao nhiêu?',
+      ans:134, tol:0.01, explain:'n/2 = 20; nhóm [130;140). Mₑ = 130 + 6/15·10 = 134.' },
+
+    { topic:'mode', q:'Số liệu: [40;50): 6, [50;60): 10, [60;70): 14, [70;80): 8. Mốt bằng bao nhiêu?',
+      ans:64, tol:0.01, explain:'Nhóm [60;70). Mₒ = 60 + 4/[(14−10)+(14−8)]·10 = 60 + 4/10·10 = 64.' },
+
+    { topic:'mode', q:'Tuổi thọ bóng đèn (giờ): [800;900): 5, [900;1000): 15, [1000;1100): 25, [1100;1200): 18, [1200;1300): 7. Mốt bằng bao nhiêu? (2 chữ số thập phân)',
+      ans:1058.82, tol:0.5, explain:'Nhóm [1000;1100). Mₒ = 1000 + 10/17·100 ≈ 1058,82.' }
+  ]
+};
+
+/* =====================================================================
+   LƯU TRỮ
+   ===================================================================== */
+function loadResults(){
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function saveResults(list){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch(e){}
+}
+function addResult(rec){
+  const list = loadResults();
+  list.push(rec);
+  saveResults(list);
+  cloudSave(rec);
+}
+function getUser(){ try{ return JSON.parse(localStorage.getItem(USER_KEY)||'null'); }catch(e){ return null; } }
+function setUser(u){ try{ localStorage.setItem(USER_KEY, JSON.stringify(u)); }catch(e){} }
+
+/* ------------------ ĐỒNG BỘ FIREBASE (REST) ------------------------- */
+function toFS(obj){
+  const f = {};
+  for (const [k,v] of Object.entries(obj)){
+    if (typeof v === 'number') f[k] = Number.isInteger(v) ? {integerValue:String(v)} : {doubleValue:v};
+    else if (typeof v === 'boolean') f[k] = {booleanValue:v};
+    else f[k] = {stringValue: String(v)};
+  }
+  return f;
+}
+function fromFS(f){
+  const o = {};
+  for (const [k,v] of Object.entries(f||{})){
+    if ('integerValue' in v) o[k] = Number(v.integerValue);
+    else if ('doubleValue' in v) o[k] = v.doubleValue;
+    else if ('booleanValue' in v) o[k] = v.booleanValue;
+    else o[k] = v.stringValue;
+  }
+  return o;
+}
+async function cloudSave(rec){
+  if (!CLOUD.enabled || !CLOUD.projectId || !CLOUD.apiKey) return;
+  try{
+    const url = `https://firestore.googleapis.com/v1/projects/${CLOUD.projectId}/databases/(default)/documents/${CLOUD.collection}?key=${CLOUD.apiKey}`;
+    await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ fields: toFS(rec) })});
+  }catch(e){ console.warn('Cloud save lỗi:', e); }
+}
+async function cloudLoad(){
+  if (!CLOUD.enabled || !CLOUD.projectId || !CLOUD.apiKey) return null;
+  try{
+    const url = `https://firestore.googleapis.com/v1/projects/${CLOUD.projectId}/databases/(default)/documents/${CLOUD.collection}?key=${CLOUD.apiKey}&pageSize=500`;
+    const r = await fetch(url);
+    const j = await r.json();
+    return (j.documents||[]).map(d => fromFS(d.fields));
+  }catch(e){ return null; }
+}
+
+/* =====================================================================
+   TIỆN ÍCH
+   ===================================================================== */
+function $(s,el=document){ return el.querySelector(s); }
+function $$(s,el=document){ return [...el.querySelectorAll(s)]; }
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function tableHTML(t){
+  if(!t) return '';
+  return `<table class="qtable"><thead><tr>${t.head.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${t.rows.map(r=>`<tr>${r.map((c,i)=>`<${i===0?'td':'td'}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function toast(msg, type=''){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(t._tm);
+  t._tm = setTimeout(()=>{ t.className=''; }, 2400);
+}
+function parseNum(s){
+  if (s===null||s===undefined) return NaN;
+  s = String(s).trim().replace(/\s/g,'').replace(/,/g,'.');
+  if (/^-?\d+(\.\d+)?\/-?\d+(\.\d+)?$/.test(s)){
+    const [a,b] = s.split('/');
+    return parseFloat(a)/parseFloat(b);
+  }
+  return parseFloat(s);
+}
+function fmt(n){
+  if (Number.isInteger(n)) return String(n);
+  return String(Math.round(n*1000)/1000).replace('.',',');
+}
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function nowStr(){
+  const d = new Date();
+  return todayStr()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+
+/* =====================================================================
+   TRẠNG THÁI
+   ===================================================================== */
+const state = {
+  screen:'login',
+  user:getUser(),
+  quizKey:null,
+  qi:0,
+  answers:[],
+  startTime:0,
+  timerId:null,
+  timeLeft:0,
+  locked:false
+};
+
+const SCREENS = ['login','home','knowledge','quizlist','play','result','leaderboard','teacher'];
+
+/* =====================================================================
+   RENDER CHUNG
+   ===================================================================== */
+function renderNav(){
+  const nav = $('#navArea');
+  if (!state.user){
+    nav.innerHTML = '';
+    return;
+  }
+  const items = [
+    ['home','🏠 Trang chủ'],
+    ['knowledge','📚 Kiến thức'],
+    ['quizlist','✏️ Luyện tập'],
+    ['leaderboard','🏆 Xếp hạng'],
+    ['teacher','👨‍🏫 Giáo viên']
+  ];
+  nav.innerHTML = `<div class="navbar">
+    ${items.map(([k,l])=>`<button class="navbtn ${state.screen===k?'active':''}" data-nav="${k}">${l}</button>`).join('')}
+    <span class="userchip">👤 ${esc(state.user.name)} · ${esc(state.user.cls)}</span>
+    <button class="navbtn" data-nav="logout">Đổi tài khoản</button>
+  </div>`;
+  $$('[data-nav]', nav).forEach(b=>{
+    b.onclick = ()=>{
+      const k = b.dataset.nav;
+      if (k==='logout'){
+        localStorage.removeItem(USER_KEY);
+        state.user = null;
+        show('login');
+        return;
+      }
+      if (k==='quizlist') show('quizlist');
+      else show(k);
+    };
+  });
+}
+
+function show(name){
+  SCREENS.forEach(s=>{
+    const el = $('#screen-'+s);
+    if (el) el.classList.remove('active');
+  });
+  state.screen = name;
+  if (state.timerId){ clearInterval(state.timerId); state.timerId = null; }
+  const el = $('#screen-'+name);
+  if (el) el.classList.add('active');
+  renderNav();
+  window.scrollTo({top:0, behavior:'smooth'});
+  if (RENDER[name]) RENDER[name]();
+}
+
+/* =====================================================================
+   SCREEN: LOGIN
+   ===================================================================== */
+function renderLogin(){
+  const el = $('#screen-login');
+  el.innerHTML = `
+  <div class="hero">
+    <svg class="dora" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="35" fill="#0f9bdc"/>
+      <ellipse cx="50" cy="53" rx="27" ry="24" fill="#fff"/>
+      <ellipse cx="40" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+      <ellipse cx="60" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+      <circle cx="42" cy="34" r="3" fill="#334155"/><circle cx="58" cy="34" r="3" fill="#334155"/>
+      <circle cx="50" cy="47" r="5" fill="#e53935"/>
+      <path d="M50 52 Q50 63 40 63" stroke="#334155" fill="none" stroke-width="1.5"/>
+      <path d="M50 52 Q50 63 60 63" stroke="#334155" fill="none" stroke-width="1.5"/>
+      <rect x="23" y="72" width="54" height="7" fill="#e53935" rx="3.5"/>
+      <circle cx="50" cy="83" r="6.5" fill="#fdd835" stroke="#334155" stroke-width="1.4"/>
+    </svg>
+    <h2>🐱 Chào mừng em đến với lớp học Toán!</h2>
+    <p>Phiếu bài tập tương tác: <b>CÁC SỐ ĐẶC TRƯNG ĐO XU THẾ TRUNG TÂM<br>CỦA MẪU SỐ LIỆU GHÉP NHÓM</b><br>
+    Toán 11 — Bộ sách Kết nối tri thức với cuộc sống</p>
+  </div>
+
+  <div class="card" style="max-width:520px;margin:0 auto">
+    <h2>🔑 Đăng nhập để bắt đầu</h2>
+    <p class="muted" style="margin-top:-6px">Em hãy điền đầy đủ thông tin dưới đây. Kết quả bài làm sẽ được lưu và xếp hạng hàng ngày.</p>
+    <div class="field">
+      <label>Họ và tên học sinh</label>
+      <input id="inName" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Lớp</label>
+      <input id="inClass" placeholder="Ví dụ: 11A1" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Trường</label>
+      <input id="inSchool" value="THPT Trần Phú" autocomplete="organization">
+    </div>
+    <button class="btn btn-primary btn-block mt" id="btnLogin">🚀 Vào học ngay</button>
+    <p class="muted center mt" style="font-size:12.5px">GV phụ trách: Nguyễn Hữu Trung — 0964848989</p>
+  </div>`;
+
+  $('#btnLogin').onclick = ()=>{
+    const name = $('#inName').value.trim();
+    const cls  = $('#inClass').value.trim();
+    const sch  = $('#inSchool').value.trim();
+    if (name.length < 2){ toast('Vui lòng nhập họ và tên!','no'); $('#inName').focus(); return; }
+    if (!cls){ toast('Vui lòng nhập lớp!','no'); $('#inClass').focus(); return; }
+    if (!sch){ toast('Vui lòng nhập trường!','no'); $('#inSchool').focus(); return; }
+    state.user = { name, cls, school: sch, joined: Date.now() };
+    setUser(state.user);
+    toast('Chào mừng ' + name + '! 🎉','ok');
+    show('home');
+  };
+  $('#inName').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#inClass').focus(); });
+  $('#inClass').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#inSchool').focus(); });
+  $('#inSchool').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#btnLogin').click(); });
+}
+
+/* =====================================================================
+   SCREEN: HOME
+   ===================================================================== */
+function renderHome(){
+  const all = loadResults();
+  const mine = all.filter(r => r.name===state.user.name && r.cls===state.user.cls);
+  const today = mine.filter(r => r.date === todayStr());
+  const best = mine.length ? Math.max(...mine.map(r=>r.score)) : 0;
+  const totalQ = mine.reduce((s,r)=>s+r.total,0);
+  const totalC = mine.reduce((s,r)=>s+r.score,0);
+  const pct = totalQ ? Math.round(totalC/totalQ*100) : 0;
+
+  const doneSet = new Set(mine.map(r=>r.quizKey));
+
+  $('#screen-home').innerHTML = `
+  <div class="hero">
+    <svg class="dora" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="35" fill="#0f9bdc"/>
+      <ellipse cx="50" cy="53" rx="27" ry="24" fill="#fff"/>
+      <ellipse cx="40" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+      <ellipse cx="60" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+      <circle cx="42" cy="34" r="3" fill="#334155"/><circle cx="58" cy="34" r="3" fill="#334155"/>
+      <circle cx="50" cy="47" r="5" fill="#e53935"/>
+      <path d="M50 52 Q50 63 40 63" stroke="#334155" fill="none" stroke-width="1.5"/>
+      <path d="M50 52 Q50 63 60 63" stroke="#334155" fill="none" stroke-width="1.5"/>
+      <rect x="23" y="72" width="54" height="7" fill="#e53935" rx="3.5"/>
+      <circle cx="50" cy="83" r="6.5" fill="#fdd835" stroke="#334155" stroke-width="1.4"/>
+    </svg>
+    <h2>Xin chào ${esc(state.user.name)}! 👋</h2>
+    <p>Lớp ${esc(state.user.cls)} — ${esc(state.user.school)}<br>Hôm nay chúng ta cùng chinh phục <b>các số đặc trưng đo xu thế trung tâm</b> nhé!</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="v">${mine.length}</div><div class="l">Bài đã làm</div></div>
+    <div class="stat"><div class="v">${pct}%</div><div class="l">Tỉ lệ đúng</div></div>
+    <div class="stat"><div class="v">${best}/10</div><div class="l">Điểm cao nhất</div></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card" style="cursor:pointer" onclick="show('knowledge')">
+      <h2>📚 Ôn kiến thức trước</h2>
+      <p class="muted">Nắm vững công thức tính số trung bình, trung vị, tứ phân vị, mốt của mẫu số liệu ghép nhóm.</p>
+      <button class="btn btn-ghost btn-sm mt">Xem ngay →</button>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="show('quizlist')">
+      <h2>✏️ Vào luyện tập</h2>
+      <p class="muted">6 bộ đề: 3 bộ trắc nghiệm (biết kết quả ngay) và 3 bộ trả lời ngắn (có đồng hồ đếm ngược).</p>
+      <button class="btn btn-primary btn-sm mt">Bắt đầu →</button>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="show('leaderboard')">
+      <h2>🏆 Bảng xếp hạng hôm nay</h2>
+      <p class="muted">Xem thứ hạng của em và các bạn trong ngày hôm nay.</p>
+      <button class="btn btn-orange btn-sm mt">Xem bảng →</button>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="show('teacher')">
+      <h2>👨‍🏫 Trang giáo viên</h2>
+      <p class="muted">Xem toàn bộ điểm thi, thống kê lớp và xuất dữ liệu Excel/CSV.</p>
+      <button class="btn btn-purple btn-sm mt">Truy cập →</button>
+    </div>
+  </div>
+
+  ${mine.length ? `
+  <div class="card mt">
+    <h2>📈 Tiến độ gần đây</h2>
+    ${mine.slice(-5).reverse().map(r=>`
+      <div class="lb-row">
+        <div class="lb-rank">${r.score>=8?'🌟':r.score>=5?'👍':'💪'}</div>
+        <div class="lb-info">
+          <div class="n">${esc(r.quizTitle)}</div>
+          <div class="m">${r.time}</div>
+        </div>
+        <div class="lb-score">${r.score}/${r.total}<small>${Math.round(r.score/r.total*100)}%</small></div>
+      </div>`).join('')}
+  </div>` : ''}
+  `;
+}
+
+/* =====================================================================
+   SCREEN: KNOWLEDGE
+   ===================================================================== */
+function renderKnowledge(){
+  const F = (a,b)=>`<span class="frac"><span class="num">${a}</span><span class="den">${b}</span></span>`;
+  $('#screen-knowledge').innerHTML = `
+  <div class="sec-title">📚 Phần 1 — Kiến thức cơ bản cần nhớ <span class="badge">BẮT BUỘC HỌC</span></div>
+
+  <div class="card" id="k-basic">
+    <h2>1️⃣ Mẫu số liệu ghép nhóm</h2>
+    <div class="kbox blue">
+      <h4>📊 Khái niệm</h4>
+      <p>Mẫu số liệu ghép nhóm là mẫu số liệu cho dưới dạng <b>bảng tần số của các nhóm số liệu</b>. Mỗi nhóm thường có dạng <b>[a ; b)</b> với a là đầu mút trái, b là đầu mút phải.</p>
+    </div>
+    <div class="formula">
+      <b>Bảng tần số ghép nhóm tổng quát</b><br><br>
+      <table class="qtable" style="max-width:640px;margin:0 auto">
+        <thead><tr><th>Nhóm</th><th>[a₁ ; a₂)</th><th>[a₂ ; a₃)</th><th>…</th><th>[a<sub>k</sub> ; a<sub>k+1</sub>)</th></tr></thead>
+        <tbody><tr><td>Tần số</td><td>m₁</td><td>m₂</td><td>…</td><td>m<sub>k</sub></td></tr></tbody>
+      </table>
+    </div>
+    <div class="kbox green">
+      <h4>✅ Hai công thức phải nhớ</h4>
+      <p><b>Cỡ mẫu:</b> n = m₁ + m₂ + … + m<sub>k</sub></p>
+      <p><b>Giá trị đại diện</b> của nhóm [a<sub>i</sub> ; a<sub>i+1</sub>) là:</p>
+      <div class="formula">x<sub>i</sub> = ${F('a<sub>i</sub> + a<sub>i+1</sub>','2')}</div>
+      <p class="note">Giá trị đại diện chính là trung điểm của mỗi nhóm — dùng để tính số trung bình.</p>
+    </div>
+  </div>
+
+  <div class="card" id="k-mean">
+    <h2>2️⃣ Số trung bình của mẫu số liệu ghép nhóm</h2>
+    <div class="kbox green">
+      <h4>⚖️ Công thức</h4>
+      <div class="formula">
+        x̄ = ${F('m₁x₁ + m₂x₂ + … + m<sub>k</sub>x<sub>k</sub>','n')}
+      </div>
+      <p>trong đó n = m₁ + … + m<sub>k</sub> là cỡ mẫu, x<sub>i</sub> là giá trị đại diện của nhóm thứ i.</p>
+    </div>
+    <div class="kbox blue">
+      <h4>💡 Ý nghĩa</h4>
+      <p>Số trung bình của mẫu số liệu ghép nhóm <b>xấp xỉ</b> số trung bình của mẫu số liệu gốc. Nó cho biết <b>vị trí trung tâm</b> của mẫu số liệu.</p>
+    </div>
+    <div class="kbox orange">
+      <h4>⚠️ Lưu ý khi làm bài</h4>
+      <ul class="tight">
+        <li>Tính giá trị đại diện cho <b>từng nhóm</b> trước khi nhân với tần số.</li>
+        <li>Giữ nguyên đơn vị của đề bài khi kết luận.</li>
+        <li>Nếu đề yêu cầu làm tròn, ghi rõ số chữ số thập phân.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" id="k-median">
+    <h2>3️⃣ Trung vị của mẫu số liệu ghép nhóm</h2>
+    <div class="kbox purple">
+      <h4>🎯 Các bước tìm trung vị M<sub>e</sub></h4>
+      <p><b>Bước 1.</b> Xác định <b>nhóm chứa trung vị</b>: nhóm đầu tiên mà tần số tích lũy ≥ n/2. Giả sử là nhóm [a<sub>p</sub> ; a<sub>p+1</sub>) có tần số m<sub>p</sub>.</p>
+      <p><b>Bước 2.</b> Áp dụng công thức:</p>
+      <div class="formula">
+        M<sub>e</sub> = a<sub>p</sub> + ${F('n/2 − (m₁ + … + m<sub>p−1</sub>)','m<sub>p</sub>')} · (a<sub>p+1</sub> − a<sub>p</sub>)
+      </div>
+    </div>
+    <div class="kbox blue">
+      <h4>💡 Ý nghĩa</h4>
+      <p>Trung vị chia mẫu số liệu thành <b>hai phần bằng nhau</b>, mỗi phần chứa 50% giá trị.</p>
+    </div>
+  </div>
+
+  <div class="card" id="k-quartile">
+    <h2>4️⃣ Tứ phân vị của mẫu số liệu ghép nhóm</h2>
+    <div class="kbox purple">
+      <h4>📐 Tứ phân vị thứ nhất Q₁</h4>
+      <div class="formula">
+        Q₁ = a<sub>p</sub> + ${F('n/4 − (m₁ + … + m<sub>p−1</sub>)','m<sub>p</sub>')} · (a<sub>p+1</sub> − a<sub>p</sub>)
+      </div>
+      <h4 style="margin-top:14px">📐 Tứ phân vị thứ ba Q₃</h4>
+      <div class="formula">
+        Q₃ = a<sub>p</sub> + ${F('3n/4 − (m₁ + … + m<sub>p−1</sub>)','m<sub>p</sub>')} · (a<sub>p+1</sub> − a<sub>p</sub>)
+      </div>
+      <p class="note">Nhóm [a<sub>p</sub> ; a<sub>p+1</sub>) tương ứng là nhóm chứa Q₁ hoặc Q₃ (nhóm đầu tiên có tần số tích lũy ≥ n/4 hoặc ≥ 3n/4).</p>
+    </div>
+    <div class="kbox blue">
+      <h4>💡 Ý nghĩa</h4>
+      <p>Các tứ phân vị chia mẫu số liệu thành <b>4 phần</b>, mỗi phần chứa 25% giá trị. Đặc biệt <b>Q₂ = M<sub>e</sub></b>.</p>
+    </div>
+  </div>
+
+  <div class="card" id="k-mode">
+    <h2>5️⃣ Mốt của mẫu số liệu ghép nhóm</h2>
+    <div class="kbox orange">
+      <h4>⭐ Các bước tìm mốt M<sub>o</sub></h4>
+      <p><b>Bước 1.</b> Tìm <b>nhóm có tần số lớn nhất</b> (nhóm chứa mốt), giả sử là [a<sub>j</sub> ; a<sub>j+1</sub>) với tần số m<sub>j</sub>.</p>
+      <p><b>Bước 2.</b> Áp dụng công thức:</p>
+      <div class="formula">
+        M<sub>o</sub> = a<sub>j</sub> + ${F('m<sub>j</sub> − m<sub>j−1</sub>','(m<sub>j</sub> − m<sub>j−1</sub>) + (m<sub>j</sub> − m<sub>j+1</sub>)')} · h
+      </div>
+      <p>trong đó m<sub>j−1</sub>, m<sub>j+1</sub> là tần số hai nhóm kề; h = a<sub>j+1</sub> − a<sub>j</sub> là độ dài nhóm.</p>
+    </div>
+    <div class="kbox blue">
+      <h4>💡 Ý nghĩa</h4>
+      <p>Mốt cho biết giá trị <b>xuất hiện nhiều nhất</b>, dùng để đo xu thế trung tâm của mẫu số liệu.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 Bảng tóm tắt công thức</h2>
+    <div class="tbl-wrap">
+      <table class="data" style="min-width:600px">
+        <thead><tr><th>Đại lượng</th><th>Vị trí cần tìm</th><th>Công thức</th></tr></thead>
+        <tbody>
+          <tr><td><b>Số trung bình x̄</b></td><td>—</td><td>Σ m<sub>i</sub>x<sub>i</sub> / n</td></tr>
+          <tr><td><b>Trung vị M<sub>e</sub></b></td><td>tần số tích lũy ≥ n/2</td><td>a<sub>p</sub> + [(n/2 − F<sub>p−1</sub>)/m<sub>p</sub>]·h</td></tr>
+          <tr><td><b>Tứ phân vị Q₁</b></td><td>tần số tích lũy ≥ n/4</td><td>a<sub>p</sub> + [(n/4 − F<sub>p−1</sub>)/m<sub>p</sub>]·h</td></tr>
+          <tr><td><b>Tứ phân vị Q₃</b></td><td>tần số tích lũy ≥ 3n/4</td><td>a<sub>p</sub> + [(3n/4 − F<sub>p−1</sub>)/m<sub>p</sub>]·h</td></tr>
+          <tr><td><b>Mốt M<sub>o</sub></b></td><td>nhóm có tần số lớn nhất</td><td>a<sub>j</sub> + [(m<sub>j</sub>−m<sub>j−1</sub>)/((m<sub>j</sub>−m<sub>j−1</sub>)+(m<sub>j</sub>−m<sub>j+1</sub>))]·h</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:10px">Trong đó F<sub>p−1</sub> = m₁ + m₂ + … + m<sub>p−1</sub> là tần số tích lũy của các nhóm đứng trước nhóm chứa giá trị cần tìm; h là độ dài của nhóm đó.</p>
+    <div class="btn-row mt">
+      <button class="btn btn-primary" onclick="show('quizlist')">✏️ Sẵn sàng luyện tập →</button>
+      <button class="btn btn-ghost" onclick="show('home')">← Về trang chủ</button>
+    </div>
+  </div>
+  `;
+}
+
+/* =====================================================================
+   SCREEN: QUIZ LIST
+   ===================================================================== */
+function renderQuizList(){
+  const results = loadResults();
+  const mine = results.filter(r=>r.name===state.user.name && r.cls===state.user.cls);
+  const doneMap = {};
+  mine.forEach(r=>{ if(!doneMap[r.quizKey] || r.score>doneMap[r.quizKey]) doneMap[r.quizKey]=r.score; });
+
+  const g1 = ['g1b1','g1b2','g1b3'];
+  const g2 = ['g2b1','g2b2','g2b3'];
+
+  const card = (k, gi)=>{
+    const q = BANK[k];
+    const d = doneMap[k];
+    return `<div class="qcard ${gi===2?'g2':''}" data-start="${k}">
+      <div class="qnum">${gi===1?'NHÓM 1 · TRẮC NGHIỆM':'NHÓM 2 · TRẢ LỜI NGẮN'}</div>
+      <h4>${esc(q.title)}</h4>
+      <p>${esc(q.sub)}</p>
+      <div class="meta">
+        <span class="pill">📝 10 câu</span>
+        ${gi===1?'<span class="pill g">⚡ Biết kết quả ngay</span>':'<span class="pill o">⏱️ 90 giây/câu</span>'}
+        ${d!==undefined?`<span class="pill done">✔ Đã làm: ${d}/10</span>`:''}
+      </div>
+      <button class="btn ${gi===1?'btn-primary':'btn-orange'} btn-sm mt">${d!==undefined?'🔄 Làm lại':'▶️ Bắt đầu'}</button>
+    </div>`;
+  };
+
+  $('#screen-quizlist').innerHTML = `
+  <div class="sec-title">✏️ Phần 2 — Luyện tập</div>
+
+  <div class="card">
+    <h2 style="color:#0a7ab0">🟦 NHÓM 1 — Trắc nghiệm luyện nhanh</h2>
+    <p class="muted">Chọn 1 trong 4 đáp án. Sau khi trả lời, hệ thống <b>báo đúng/sai ngay</b> và hiện lời giải chi tiết. Mức độ câu hỏi tăng dần từ dễ đến khó.</p>
+    <div class="grid grid-3 mt">${g1.map(k=>card(k,1)).join('')}</div>
+  </div>
+
+  <div class="card">
+    <h2 style="color:#c2410c">🟧 NHÓM 2 — Trả lời ngắn (có đồng hồ)</h2>
+    <p class="muted">Điền kết quả vào ô trống. Mỗi câu có <b>90 giây</b> đếm ngược. Có thể nhập số thập phân (dùng dấu <b>,</b> hoặc <b>.</b>) hoặc phân số dạng <b>13/15</b>.</p>
+    <div class="grid grid-3 mt">${g2.map(k=>card(k,2)).join('')}</div>
+  </div>
+
+  <div class="card center">
+    <p class="muted">Chưa nắm chắc công thức? Hãy ôn lại trước khi làm bài nhé!</p>
+    <button class="btn btn-ghost" onclick="show('knowledge')">📚 Ôn lại kiến thức</button>
+  </div>
+  `;
+
+  $$('[data-start]').forEach(el=>{
+    el.onclick = ()=> startQuiz(el.dataset.start);
+  });
+}
+
+/* =====================================================================
+   QUIZ ENGINE
+   ===================================================================== */
+function startQuiz(key){
+  const q = BANK[key];
+  if (!q) return;
+  state.quizKey = key;
+  state.qi = 0;
+  state.answers = [];
+  state.startTime = Date.now();
+  state.locked = false;
+  show('play');
+}
+
+function renderPlay(){
+  const key = state.quizKey;
+  const quiz = BANK[key];
+  const i = state.qi;
+  const q = quiz.qs[i];
+  const g = quiz.group;
+
+  if (state.timerId){ clearInterval(state.timerId); state.timerId = null; }
+
+  const prog = Math.round(((i) / quiz.qs.length) * 100);
+
+  let body = '';
+  if (g === 1){
+    body = `<div class="opts" id="opts">
+      ${q.options.map((o,idx)=>`<button class="opt" data-idx="${idx}">
+        <span class="k">${'ABCD'[idx]}</span><span>${o}</span>
+      </button>`).join('')}
+    </div>
+    <div id="fbArea"></div>
+    <div class="btn-row mt" id="nextArea" style="display:none">
+      <button class="btn btn-primary" id="btnNext">${i<quiz.qs.length-1?'Câu tiếp theo →':'Xem kết quả 🎉'}</button>
+    </div>`;
+  } else {
+    body = `<div class="shortwrap">
+      <input id="shortIn" type="text" inputmode="decimal" placeholder="Nhập kết quả..." autocomplete="off">
+      <button class="btn btn-orange" id="btnSub">Trả lời</button>
+    </div>
+    <div id="fbArea"></div>
+    <div class="btn-row mt" id="nextArea" style="display:none">
+      <button class="btn btn-primary" id="btnNext">${i<quiz.qs.length-1?'Câu tiếp theo →':'Xem kết quả 🎉'}</button>
+    </div>`;
+  }
+
+  $('#screen-play').innerHTML = `
+  <div class="quiz-head">
+    <div>
+      <div class="muted" style="font-size:12.5px;font-weight:700;letter-spacing:.5px">
+        ${g===1?'🟦 NHÓM 1 · TRẮC NGHIỆM':'🟧 NHÓM 2 · TRẢ LỜI NGẮN'}
+      </div>
+      <div style="font-weight:800;color:var(--blue-d);font-size:15.5px">${esc(quiz.title)}</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="pill">Câu ${i+1}/${quiz.qs.length}</span>
+      ${g===2?'<span class="timer" id="timer">⏱️ <span id="tsec">90</span>s</span>':''}
+      <button class="btn btn-ghost btn-sm" onclick="quitQuiz()">Thoát</button>
+    </div>
+  </div>
+
+  <div class="progress"><i style="width:${prog}%"></i></div>
+
+  <div class="card">
+    <div class="mascot-row">
+      <svg viewBox="0 0 100 100" id="mascotPlay">
+        <circle cx="50" cy="45" r="35" fill="#0f9bdc"/>
+        <ellipse cx="50" cy="53" rx="27" ry="24" fill="#fff"/>
+        <ellipse cx="40" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+        <ellipse cx="60" cy="32" rx="7.5" ry="10.5" fill="#fff" stroke="#334155" stroke-width="1.4"/>
+        <circle cx="42" cy="34" r="3" fill="#334155"/><circle cx="58" cy="34" r="3" fill="#334155"/>
+        <circle cx="50" cy="47" r="5" fill="#e53935"/>
+        <path d="M50 52 Q50 63 40 63" stroke="#334155" fill="none" stroke-width="1.5"/>
+        <path d="M50 52 Q50 63 60 63" stroke="#334155" fill="none" stroke-width="1.5"/>
+        <rect x="23" y="72" width="54" height="7" fill="#e53935" rx="3.5"/>
+        <circle cx="50" cy="83" r="6.5" fill="#fdd835" stroke="#334155" stroke-width="1.4"/>
+      </svg>
+      <div class="bubble" id="bubble">Cố lên nhé! Đọc kĩ đề rồi hãy chọn đáp án 💪</div>
+    </div>
+    <div class="qtext">${q.q}</div>
+    ${tableHTML(q.table)}
+    ${q.ask?`<div class="qtext" style="font-weight:700">${q.ask}</div>`:''}
+    ${body}
+  </div>
+  `;
+
+  // events
+  if (g === 1){
+    $$('#opts .opt').forEach(btn=>{
+      btn.onclick = ()=> answerMCQ(parseInt(btn.dataset.idx,10));
+    });
+  } else {
+    const inp = $('#shortIn');
+    inp.focus();
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter') $('#btnSub').click(); });
+    $('#btnSub').onclick = ()=> answerShort();
+    startTimer();
+  }
+}
+
+function startTimer(){
+  state.timeLeft = SEC_PER_QUESTION;
+  const el = $('#tsec');
+  const box = $('#timer');
+  if (el) el.textContent = state.timeLeft;
+  state.timerId = setInterval(()=>{
+    state.timeLeft--;
+    if (el) el.textContent = state.timeLeft;
+    if (box){
+      if (state.timeLeft <= 15) box.classList.add('warn');
+      else box.classList.remove('warn');
+    }
+    if (state.timeLeft <= 0){
+      clearInterval(state.timerId);
+      state.timerId = null;
+      if (!state.locked) answerShort(true);
+    }
+  }, 1000);
+}
+
+function setBubble(txt, mood){
+  const b = $('#bubble');
+  if (b) b.textContent = txt;
+}
+
+function answerMCQ(idx){
+  if (state.locked) return;
+  state.locked = true;
+  const quiz = BANK[state.quizKey];
+  const q = quiz.qs[state.qi];
+  const correct = idx === q.ans;
+
+  $$('#opts .opt').forEach((btn,i)=>{
+    btn.classList.add('locked');
+    btn.onclick = null;
+    if (i === q.ans) btn.classList.add('correct');
+    if (i === idx && !correct) btn.classList.add('wrong');
+  });
+
+  state.answers.push({
+    qIndex: state.qi, topic: q.topic,
+    userAns: 'ABCD'[idx], correctAns: 'ABCD'[q.ans],
+    ok: correct, question: q.q + (q.ask? ' ' + q.ask : '')
+  });
+
+  const fb = $('#fbArea');
+  fb.innerHTML = `<div class="fb ${correct?'ok':'no'}">
+    <b>${correct?'✅ Chính xác! Tuyệt vời!':'❌ Chưa đúng rồi!'}</b>
+    Đáp án đúng là <b>${'ABCD'[q.ans]}. ${q.options[q.ans]}</b>.
+    <div class="exp">💡 <b>Lời giải:</b> ${q.explain}</div>
+  </div>`;
+
+  setBubble(correct ? 'Giỏi quá! Tiếp tục phát huy nhé 🎉' : 'Không sao, xem lời giải rồi làm lại nhé! 💪');
+
+  $('#nextArea').style.display = 'flex';
+  $('#btnNext').onclick = nextQuestion;
+  $('#btnNext').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function answerShort(timeout){
+  if (state.locked) return;
+  state.locked = true;
+  if (state.timerId){ clearInterval(state.timerId); state.timerId = null; }
+
+  const quiz = BANK[state.quizKey];
+  const q = quiz.qs[state.qi];
+  const inp = $('#shortIn');
+  const raw = inp ? inp.value.trim() : '';
+  const v = parseNum(raw);
+  const tol = (q.tol !== undefined) ? q.tol : 0.02;
+  const correct = !timeout && !isNaN(v) && Math.abs(v - q.ans) <= tol;
+
+  if (inp) inp.disabled = true;
+  const bs = $('#btnSub');
+  if (bs) bs.disabled = true;
+
+  state.answers.push({
+    qIndex: state.qi, topic: q.topic,
+    userAns: timeout ? '(hết giờ)' : (raw || '(bỏ trống)'),
+    correctAns: fmt(q.ans), ok: correct, question: q.q
+  });
+
+  const fb = $('#fbArea');
+  fb.innerHTML = `<div class="fb ${correct?'ok':'no'}">
+    <b>${correct?'✅ Chính xác! Tuyệt vời!':(timeout?'⏰ Hết thời gian!':'❌ Chưa đúng rồi!')}</b>
+    Đáp án đúng là <b>${fmt(q.ans)}</b>${raw?` — Em đã trả lời: <b>${esc(raw)}</b>`:''}.
+    <div class="exp">💡 <b>Lời giải:</b> ${q.explain}</div>
+  </div>`;
+
+  setBubble(correct ? 'Xuất sắc! Em tính rất chuẩn 🎯' : 'Cùng xem lại cách giải để nhớ lâu hơn nhé! 📖');
+
+  $('#nextArea').style.display = 'flex';
+  $('#btnNext').onclick = nextQuestion;
+  $('#btnNext').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function nextQuestion(){
+  const quiz = BANK[state.quizKey];
+  state.qi++;
+  state.locked = false;
+  if (state.qi >= quiz.qs.length){
+    finishQuiz();
+  } else {
+    show('play');
+  }
+}
+
+function quitQuiz(){
+  if (state.timerId){ clearInterval(state.timerId); state.timerId = null; }
+  if (confirm('Em có chắc muốn thoát? Kết quả bài làm sẽ không được lưu.')){
+    show('quizlist');
+  }
+}
+
+/* =====================================================================
+   FINISH + PHÂN TÍCH
+   ===================================================================== */
+function finishQuiz(){
+  const quiz = BANK[state.quizKey];
+  const total = quiz.qs.length;
+  const score = state.answers.filter(a=>a.ok).length;
+  const timeSpent = Math.round((Date.now() - state.startTime)/1000);
+
+  // thống kê theo chủ đề
+  const stat = {};
+  state.answers.forEach(a=>{
+    if (!stat[a.topic]) stat[a.topic] = { ok:0, total:0 };
+    stat[a.topic].total++;
+    if (a.ok) stat[a.topic].ok++;
+  });
+
+  const weak = Object.entries(stat)
+    .filter(([t,s]) => s.ok < s.total)              // có câu sai
+    .map(([t,s]) => ({ topic:t, wrong: s.total - s.ok, total: s.total, rate: (s.total-s.ok)/s.total }))
+    .sort((a,b)=> b.rate - a.rate);
+
+  const rec = {
+    id: 'r' + Date.now() + Math.random().toString(36).slice(2,7),
+    name: state.user.name,
+    cls: state.user.cls,
+    school: state.user.school,
+    quizKey: state.quizKey,
+    quizTitle: quiz.title,
+    group: quiz.group,
+    score, total,
+    timeSpent,
+    date: todayStr(),
+    time: nowStr(),
+    weakTopics: weak.map(w=>w.topic).join(','),
+    detail: JSON.stringify(state.answers.map(a=>({t:a.topic, ok:a.ok?1:0})))
+  };
+  addResult(rec);
+  state.lastRec = rec;
+  state.lastWeak = weak;
+  show('result');
+}
+
+function renderResult(){
+  const rec = state.lastRec;
+  if (!rec){ show('home'); return; }
+  const pct = Math.round(rec.score/rec.total*100);
+  const weak = state.lastWeak || [];
+
+  let color = '#ef4444', grade = 'Cần cố gắng thêm 💪', emoji='😢';
+  if (pct >= 90){ color='#16a34a'; grade='Xuất sắc! Em là cao thủ Toán! 🏆'; emoji='🌟'; }
+  else if (pct >= 70){ color='#22c55e'; grade='Khá tốt! Cố thêm chút nữa nhé! 👏'; emoji='😊'; }
+  else if (pct >= 50){ color='#f59e0b'; grade='Trung bình — cần ôn lại công thức! 📚'; emoji='🙂'; }
+  else { color='#ef4444'; grade='Cần cố gắng nhiều hơn! Hãy ôn lại kiến thức 💪'; emoji='😢'; }
+
+  const mm = String(Math.floor(rec.timeSpent/60)).padStart(2,'0');
+  const ss = String(rec.timeSpent%60).padStart(2,'0');
+
+  $('#screen-result').innerHTML = `
+  <div class="card center">
+    <div class="score-circle" style="background:linear-gradient(135deg,${color},${color}cc)">
+      <div class="num">${rec.score}/${rec.total}</div>
+      <div class="den">${pct}%</div>
+    </div>
+    <h2 style="justify-content:center">${emoji} ${grade}</h2>
+    <p class="muted">${esc(rec.quizTitle)} — ${esc(state.user.name)} · ${esc(state.user.cls)}</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="v">${rec.score}</div><div class="l">Câu đúng</div></div>
+      <div class="stat"><div class="v">${rec.total-rec.score}</div><div class="l">Câu sai</div></div>
+      <div class="stat"><div class="v">${mm}:${ss}</div><div class="l">Thời gian</div></div>
+    </div>
+  </div>
+
+  ${weak.length ? `
+  <div class="card">
+    <div class="weakbox">
+      <h4>🔍 Em còn yếu ở những phần kiến thức sau:</h4>
+      ${weak.map(w=>{
+        const T = TOPICS[w.topic];
+        return `<div class="weakitem">
+          <div>
+            <div class="t">${T.icon} ${T.name}</div>
+            <div class="s">Sai ${w.wrong}/${w.total} câu (${Math.round(w.rate*100)}%)</div>
+          </div>
+          <button class="btn btn-orange btn-sm" onclick="goReview('${T.anchor}')">📖 Ôn lại ngay</button>
+        </div>`;
+      }).join('')}
+      <p class="muted" style="margin:6px 0 0">👉 Bấm <b>"Ôn lại ngay"</b> để xem lại công thức và ví dụ của phần đó trước khi làm lại bài.</p>
+    </div>
+  </div>` : `
+  <div class="card">
+    <div class="fb ok">
+      <b>🎉 Tuyệt vời! Em không sai câu nào!</b>
+      Em đã nắm rất vững tất cả các dạng bài về số trung bình, trung vị, tứ phân vị và mốt. Hãy thử sức với bộ đề khác nhé!
+    </div>
+  </div>`}
+
+  <div class="card">
+    <h2>📋 Chi tiết từng câu</h2>
+    ${state.answers.map((a,i)=>{
+      const T = TOPICS[a.topic];
+      return `<div class="lb-row" style="${a.ok?'':'background:#fff5f5;border-color:#fecaca'}">
+        <div class="lb-rank" style="font-size:15px">${a.ok?'✅':'❌'}</div>
+        <div class="lb-info">
+          <div class="n">Câu ${i+1} · ${T.icon} ${T.name}</div>
+          <div class="m">Em chọn: <b>${esc(a.userAns)}</b> — Đáp án: <b style="color:#16a34a">${esc(String(a.correctAns))}</b></div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="startQuiz('${rec.quizKey}')">🔄 Làm lại bộ này</button>
+    <button class="btn btn-orange" onclick="show('quizlist')">📚 Chọn bộ khác</button>
+    <button class="btn btn-purple" onclick="show('leaderboard')">🏆 Xem xếp hạng</button>
+    <button class="btn btn-ghost" onclick="show('home')">🏠 Trang chủ</button>
+  </div>
+  `;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function goReview(anchor){
+  show('knowledge');
+  setTimeout(()=>{
+    const el = document.getElementById(anchor);
+    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 180);
+}
+
+/* =====================================================================
+   SCREEN: LEADERBOARD
+   ===================================================================== */
+function renderLeaderboard(){
+  const all = loadResults();
+  const today = todayStr();
+
+  // Tổng hợp tốt nhất mỗi học sinh trong ngày (theo tổng điểm / tổng câu)
+  const byStudent = {};
+  all.filter(r=>r.date===today).forEach(r=>{
+    const k = r.name+'|'+r.cls;
+    if (!byStudent[k]) byStudent[k] = { name:r.name, cls:r.cls, school:r.school, score:0, total:0, best:0, count:0, time:0 };
+    byStudent[k].score += r.score;
+    byStudent[k].total += r.total;
+    byStudent[k].best = Math.max(byStudent[k].best, r.score);
+    byStudent[k].count++;
+    byStudent[k].time += r.timeSpent;
+  });
+
+  const rows = Object.values(byStudent)
+    .map(s=>({ ...s, pct: s.total? s.score/s.total : 0 }))
+    .sort((a,b)=> b.pct - a.pct || a.time - b.time)
+    .slice(0,20);
+
+  const medals = ['🥇','🥈','🥉'];
+
+  $('#screen-leaderboard').innerHTML = `
+  <div class="sec-title">🏆 Bảng xếp hạng ngày ${today.split('-').reverse().join('/')}</div>
+
+  <div class="card">
+    <h2>🌟 Top học sinh hôm nay</h2>
+    <p class="muted" style="margin-top:-6px">Xếp hạng theo <b>tỉ lệ đúng</b>, nếu bằng nhau thì ưu tiên bạn có tổng thời gian làm bài ít hơn.</p>
+    ${rows.length ? rows.map((r,i)=>`
+      <div class="lb-row ${i===0?'top1':i===1?'top2':i===2?'top3':''}">
+        <div class="lb-rank">${medals[i] || (i+1)}</div>
+        <div class="lb-info">
+          <div class="n">${esc(r.name)} ${r.name===state.user.name && r.cls===state.user.cls ? '⭐ (em)' : ''}</div>
+          <div class="m">Lớp ${esc(r.cls)} · ${esc(r.school||'')} · Đã làm ${r.count} bộ đề</div>
+        </div>
+        <div class="lb-score">${Math.round(r.pct*100)}%<small>${r.score}/${r.total} câu</small></div>
+      </div>`).join('') :
+      `<div class="fb" style="background:#f1f5f9;border-left-color:#94a3b8;color:#475569">
+        <b>Chưa có ai làm bài hôm nay.</b> Hãy là người đầu tiên lên bảng xếp hạng! 🚀
+      </div>`}
+  </div>
+
+  <div class="card">
+    <h2>📊 Thống kê chung</h2>
+    <div class="stat-grid">
+      <div class="stat"><div class="v">${all.filter(r=>r.date===today).length}</div><div class="l">Lượt làm bài</div></div>
+      <div class="stat"><div class="v">${Object.keys(byStudent).length}</div><div class="l">Học sinh</div></div>
+      <div class="stat"><div class="v">${all.length}</div><div class="l">Tổng lượt (mọi ngày)</div></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="show('quizlist')">✏️ Làm bài để leo hạng</button>
+    <button class="btn btn-ghost" onclick="show('home')">🏠 Trang chủ</button>
+  </div>
+  `;
+}
+
+/* =====================================================================
+   SCREEN: TEACHER
+   ===================================================================== */
+let teacherAuthed = false;
+
+function renderTeacher(){
+  if (!teacherAuthed){
+    $('#screen-teacher').innerHTML = `
+    <div class="sec-title">👨‍🏫 Trang giáo viên</div>
+    <div class="card" style="max-width:440px;margin:0 auto">
+      <h2>🔒 Đăng nhập giáo viên</h2>
+      <p class="muted" style="margin-top:-6px">Nhập mật khẩu để xem điểm thi và thống kê của học sinh.</p>
+      <div class="field">
+        <label>Mật khẩu</label>
+        <input id="tPass" type="password" placeholder="Nhập mật khẩu..." autocomplete="off">
+      </div>
+      <button class="btn btn-purple btn-block" id="btnTeacherLogin">Đăng nhập</button>
+      <p class="muted center mt" style="font-size:12px">Mật khẩu mặc định: 0964848989 (có thể đổi trong mã nguồn)</p>
+    </div>`;
+    const go = ()=>{
+      if ($('#tPass').value === TEACHER_PASSWORD){
+        teacherAuthed = true;
+        renderTeacher();
+      } else toast('Mật khẩu không đúng!','no');
+    };
+    $('#btnTeacherLogin').onclick = go;
+    $('#tPass').addEventListener('keydown', e=>{ if(e.key==='Enter') go(); });
+    return;
+  }
+
+  const all = loadResults();
+
+  if (!all.length){
+    $('#screen-teacher').innerHTML = `
+    <div class="sec-title">👨‍🏫 Trang giáo viên</div>
+    <div class="card">
+      <div class="fb" style="background:#f1f5f9;border-left-color:#94a3b8;color:#475569">
+        <b>Chưa có dữ liệu bài làm nào.</b> Học sinh cần đăng nhập và hoàn thành ít nhất 1 bộ đề.
+      </div>
+      <button class="btn btn-ghost mt" onclick="show('home')">← Về trang chủ</button>
+    </div>`;
+    return;
+  }
+
+  const classes = [...new Set(all.map(r=>r.cls))].sort();
+  const quizzes = [...new Set(all.map(r=>r.quizKey))];
+
+  // thống kê theo chủ đề
+  const topicStat = {};
+  Object.keys(TOPICS).forEach(t=>topicStat[t] = { ok:0, total:0 });
+  all.forEach(r=>{
+    try{
+      const d = JSON.parse(r.detail || '[]');
+      d.forEach(x=>{
+        if (!topicStat[x.t]) topicStat[x.t] = { ok:0, total:0 };
+        topicStat[x.t].total++;
+        if (x.ok) topicStat[x.t].ok++;
+      });
+    }catch(e){}
+  });
+
+  $('#screen-teacher').innerHTML = `
+  <div class="sec-title">👨‍🏫 Trang giáo viên — Thống kê kết quả
+    <span class="badge">${all.length} lượt làm bài</span>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <div class="field" style="margin:0;flex:1;min-width:170px">
+        <label style="font-size:12.5px">Lọc theo lớp</label>
+        <select id="fClass"><option value="">Tất cả lớp</option>${classes.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
+      </div>
+      <div class="field" style="margin:0;flex:1;min-width:170px">
+        <label style="font-size:12.5px">Lọc theo bộ đề</label>
+        <select id="fQuiz"><option value="">Tất cả bộ đề</option>${quizzes.map(k=>`<option value="${k}">${esc(BANK[k]?BANK[k].title:k)}</option>`).join('')}</select>
+      </div>
+      <div class="field" style="margin:0;flex:1;min-width:150px">
+        <label style="font-size:12.5px">Lọc theo ngày</label>
+        <input id="fDate" type="date">
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btnClear">Xóa lọc</button>
+    </div>
+    <div class="btn-row mt">
+      <button class="btn btn-green btn-sm" id="btnExport">⬇️ Xuất CSV</button>
+      <button class="btn btn-ghost btn-sm" id="btnRefresh">🔄 Làm mới</button>
+      <button class="btn btn-ghost btn-sm" id="btnCloud">☁️ Đồng bộ đám mây</button>
+      <button class="btn btn-ghost btn-sm" id="btnLogout">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📊 Phân tích theo chủ đề kiến thức</h2>
+    <div class="tbl-wrap">
+      <table class="data" style="min-width:520px">
+        <thead><tr><th>Chủ đề</th><th>Số câu</th><th>Đúng</th><th>Tỉ lệ đúng</th><th>Đánh giá</th></tr></thead>
+        <tbody>
+          ${Object.entries(topicStat).map(([t,s])=>{
+            const T = TOPICS[t]; if(!T) return '';
+            const p = s.total? Math.round(s.ok/s.total*100) : 0;
+            const cls = p>=80?'good':p>=50?'mid':'bad';
+            const lbl = p>=80?'Tốt':p>=50?'Trung bình':'Yếu';
+            return `<tr>
+              <td>${T.icon} ${T.name}</td>
+              <td>${s.total}</td>
+              <td>${s.ok}</td>
+              <td><b style="color:${p>=80?'#16a34a':p>=50?'#f59e0b':'#dc2626'}">${p}%</b></td>
+              <td><span class="tag ${cls}">${lbl}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 Danh sách bài làm <span id="cntLbl" class="pill"></span></h2>
+    <div class="tbl-wrap">
+      <table class="data" id="tblResults">
+        <thead><tr>
+          <th>#</th><th>Họ và tên</th><th>Lớp</th><th>Trường</th>
+          <th>Bộ đề</th><th>Nhóm</th><th>Điểm</th><th>Tỉ lệ</th><th>Thời gian</th><th>Thời điểm</th><th>Phần yếu</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  `;
+
+  const renderTable = ()=>{
+    const fc = $('#fClass').value;
+    const fq = $('#fQuiz').value;
+    const fd = $('#fDate').value;
+    let rows = all.slice().reverse();
+    if (fc) rows = rows.filter(r=>r.cls===fc);
+    if (fq) rows = rows.filter(r=>r.quizKey===fq);
+    if (fd) rows = rows.filter(r=>r.date===fd);
+
+    const tb = $('#tblResults tbody');
+    tb.innerHTML = rows.map((r,i)=>{
+      const p = Math.round(r.score/r.total*100);
+      const cls = p>=80?'good':p>=50?'mid':'bad';
+      const wt = (r.weakTopics||'').split(',').filter(Boolean).map(t=>TOPICS[t]?TOPICS[t].icon+' '+TOPICS[t].name:t).join(', ') || '—';
+      const mm = String(Math.floor(r.timeSpent/60)).padStart(2,'0');
+      const ss = String(r.timeSpent%60).padStart(2,'0');
+      return `<tr>
+        <td>${i+1}</td>
+        <td><b>${esc(r.name)}</b></td>
+        <td>${esc(r.cls)}</td>
+        <td>${esc(r.school||'')}</td>
+        <td>${esc(BANK[r.quizKey]?BANK[r.quizKey].title:r.quizTitle)}</td>
+        <td>${r.group===1?'Trắc nghiệm':'Trả lời ngắn'}</td>
+        <td><b style="color:${p>=80?'#16a34a':p>=50?'#f59e0b':'#dc2626'}">${r.score}/${r.total}</b></td>
+        <td><span class="tag ${cls}">${p}%</span></td>
+        <td>${mm}:${ss}</td>
+        <td>${esc(r.time)}</td>
+        <td style="white-space:normal;max-width:220px;font-size:12px">${esc(wt)}</td>
+      </tr>`;
+    }).join('') || `<tr><td colspan="11" style="text-align:center;padding:22px;color:#94a3b8">Không có dữ liệu phù hợp bộ lọc.</td></tr>`;
+
+    $('#cntLbl').textContent = rows.length + ' bản ghi';
+  };
+
+  renderTable();
+  $('#fClass').onchange = renderTable;
+  $('#fQuiz').onchange = renderTable;
+  $('#fDate').onchange = renderTable;
+  $('#btnClear').onclick = ()=>{ $('#fClass').value=''; $('#fQuiz').value=''; $('#fDate').value=''; renderTable(); };
+  $('#btnRefresh').onclick = ()=>{ renderTeacher(); toast('Đã làm mới dữ liệu','ok'); };
+  $('#btnLogout').onclick = ()=>{ teacherAuthed=false; renderTeacher(); };
+
+  $('#btnExport').onclick = ()=>{
+    const head = ['Ho ten','Lop','Truong','Bo de','Nhom','Diem','Tong cau','Ti le %','Thoi gian (s)','Thoi diem','Phan yeu'];
+    const lines = [head.join(',')];
+    all.forEach(r=>{
+      const p = Math.round(r.score/r.total*100);
+      const wt = (r.weakTopics||'').split(',').filter(Boolean).map(t=>TOPICS[t]?TOPICS[t].name:t).join(' | ');
+      lines.push([
+        r.name, r.cls, r.school||'', (BANK[r.quizKey]?BANK[r.quizKey].title:r.quizTitle),
+        r.group===1?'Trac nghiem':'Tra loi ngan',
+        r.score, r.total, p, r.timeSpent, r.time, wt
+      ].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(','));
+    });
+    const blob = new Blob(['\uFEFF'+lines.join('\n')], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ket_qua_toan11_' + todayStr() + '.csv';
+    a.click();
+    toast('Đã xuất file CSV','ok');
+  };
+
+  $('#btnCloud').onclick = async ()=>{
+    if (!CLOUD.enabled){
+      alert('Đồng bộ đám mây chưa được bật.\n\nĐể bật: mở file HTML, tìm đối tượng CLOUD ở đầu <script>, điền projectId + apiKey của Firebase và đặt enabled: true.');
+      return;
+    }
+    toast('Đang đồng bộ...');
+    const remote = await cloudLoad();
+    if (!remote){ toast('Đồng bộ thất bại, kiểm tra cấu hình!','no'); return; }
+    const local = loadResults();
+    const map = {};
+    [...local, ...remote].forEach(r=>{ map[r.id] = r; });
+    const merged = Object.values(map).sort((a,b)=> a.time < b.time ? -1 : 1);
+    saveResults(merged);
+    toast('Đã đồng bộ ' + remote.length + ' bản ghi','ok');
+    renderTeacher();
+  };
+}
+
+/* =====================================================================
+   KHỞI TẠO
+   ===================================================================== */
+const RENDER = {
+  login: renderLogin,
+  home: renderHome,
+  knowledge: renderKnowledge,
+  quizlist: renderQuizList,
+  play: renderPlay,
+  result: renderResult,
+  leaderboard: renderLeaderboard,
+  teacher: renderTeacher
+};
+
+function init(){
+  // tạo các screen container
+  const app = $('#app');
+  app.innerHTML = SCREENS.map(s=>`<div class="screen" id="screen-${s}"></div>`).join('');
+
+  // đăng ký hàm show toàn cục để dùng trong onclick
+  window.show = show;
+  window.startQuiz = startQuiz;
+  window.quitQuiz = quitQuiz;
+  window.goReview = goReview;
+
+  // tự động đăng nhập nếu đã có
+  if (state.user && state.user.name){
+    show('home');
+  } else {
+    show('login');
+  }
+
+  // đồng bộ đám mây định kỳ khi vào trang xếp hạng / giáo viên
+  if (CLOUD.enabled){
+    cloudLoad().then(remote=>{
+      if (!remote || !remote.length) return;
+      const local = loadResults();
+      const map = {};
+      [...local, ...remote].forEach(r=>{ map[r.id] = r; });
+      saveResults(Object.values(map));
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
